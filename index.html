@@ -31,6 +31,33 @@
       --radius: 18px;
       --display: "Barlow Condensed", "Arial Narrow", sans-serif;
       --body: "Barlow", system-ui, sans-serif;
+
+      --space-xs: 8px;
+      --space-sm: 12px;
+      --space-md: 16px;
+      --space-lg: 24px;
+      --space-xl: 32px;
+      --space-2xl: 40px;
+      --space-3xl: 48px;
+      --space-4xl: 64px;
+      --space-5xl: 72px;
+      --space-6xl: 80px;
+
+      /* Section rhythm (mobile values; desktop overrides below) */
+      --gap-intro-rules: var(--space-3xl);
+      --gap-rules-bar: var(--space-3xl);
+      --bar-pad-top: var(--space-xs);
+      --bar-pad-bottom: 10px;
+      --rule-pad: var(--space-lg);
+    }
+    @media (min-width: 760px) {
+      :root {
+        --gap-intro-rules: var(--space-4xl);
+        --gap-rules-bar: var(--space-5xl);
+        --bar-pad-top: var(--space-sm);
+        --bar-pad-bottom: 14px;
+        --rule-pad: var(--space-xl);
+      }
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -58,15 +85,16 @@
     }
 
     /* ---------- Header ---------- */
-    header {
+    header.wrap {
       text-align: center;
-      padding: 12px 0 8px;
+      padding-top: var(--space-xl);
     }
+    header h1 { max-width: 760px; margin: 0 auto; }
 
     .topbar {
       display: flex;
       justify-content: center;
-      padding: 14px 16px 0;
+      padding: var(--space-md) var(--space-md) 0;
     }
     .topbar img {
       display: block;
@@ -80,7 +108,8 @@
       width: 100%;
       max-width: 760px;
       height: auto;
-      margin: -4% auto -6%;
+      /* The PNG has ~8.9% of its width as transparent space above and below the letters. */
+      margin: -8.9% auto;
       filter: drop-shadow(0 0 18px rgba(189, 247, 209, .35)) drop-shadow(0 0 48px rgba(189, 247, 209, .18));
       animation: flicker 7s infinite;
     }
@@ -94,9 +123,9 @@
 
     .intro {
       max-width: 600px;
-      margin: 12px auto 0;
+      margin: var(--space-2xl) auto 0;
       font-size: clamp(16px, 4.2vw, 18px);
-      line-height: 1.55;
+      line-height: 1.7;
       color: rgba(255, 255, 255, .75);
       text-wrap: pretty;
     }
@@ -111,13 +140,12 @@
       position: sticky;
       top: 0;
       z-index: 10;
-      padding: 8px 0 10px;
-      margin-top: 14px;
+      padding: var(--bar-pad-top) 0 var(--bar-pad-bottom);
+      margin-top: calc(var(--gap-rules-bar) - var(--bar-pad-top));
       background: linear-gradient(to bottom, var(--bg) 82%, rgba(11, 18, 34, 0));
     }
     .filters .wrap { display: grid; gap: 6px; }
     @media (min-width: 760px) {
-      .filters { padding: 12px 0 14px; }
       .filters .wrap { display: flex; align-items: center; gap: 20px; }
       .filters .search { flex: 0 0 340px; }
       .filters .chips { flex: 1; min-width: 0; }
@@ -219,14 +247,18 @@
     .chip:focus-visible, .btn:focus-visible, .search-clear:focus-visible, .state .btn:focus-visible, .info:focus-visible, .modal-close:focus-visible { outline: 2px solid var(--mint); outline-offset: 2px; }
 
     /* ---------- Grid ---------- */
+    .wide { width: 100%; max-width: none; padding: 0 12px; }
+    @media (min-width: 640px) { .wide { padding: 0 24px; } }
+
     .grid {
       display: grid;
-      grid-template-columns: 1fr;
-      gap: 16px;
-      padding: 6px 0 40px;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      padding: calc(var(--space-xl) - var(--bar-pad-bottom)) 0 var(--space-6xl);
     }
-    @media (min-width: 560px) { .grid { grid-template-columns: repeat(2, 1fr); } }
-    @media (min-width: 900px) { .grid { grid-template-columns: repeat(3, 1fr); gap: 20px; } }
+    @media (min-width: 640px) { .grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; } }
+    @media (min-width: 1024px) { .grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+    @media (min-width: 1440px) { .grid { grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 16px; } }
 
     .card {
       display: flex;
@@ -250,9 +282,10 @@
 
     .media {
       position: relative;
-      aspect-ratio: 4 / 3;
+      aspect-ratio: 1 / 1;
       background: var(--bg-2);
       overflow: hidden;
+      container-type: inline-size;
     }
     .media img {
       width: 100%;
@@ -274,7 +307,8 @@
     .placeholder span {
       font-family: var(--display);
       font-weight: 800;
-      font-size: 96px;
+      font-size: 64px;
+      font-size: 34cqi;
       line-height: 1;
       color: transparent;
       -webkit-text-stroke: 2px var(--mint);
@@ -339,6 +373,25 @@
     }
     .info svg { width: 16px; height: 16px; }
 
+    /* Compact catalog card */
+    .card { border-radius: 14px; }
+    .card .badge { top: 8px; left: 8px; font-size: 10px; padding: 3px 7px; letter-spacing: .06em; }
+    .card .info { top: 8px; right: 8px; width: 24px; height: 24px; }
+    .card .info svg { width: 13px; height: 13px; }
+    .card .body { gap: 8px; padding: 10px 10px 12px; }
+    .card .name { font-size: 16px; line-height: 1.15; min-height: 2.3em; }
+    .card .foot { flex-direction: column; align-items: stretch; gap: 8px; padding-top: 0; }
+    .card .price { font-size: 22px; }
+    .card .price small { font-size: 11px; }
+    .card .btn { justify-content: center; gap: 6px; font-size: 14px; padding: 8px 10px; }
+    .card .btn svg { width: 15px; height: 15px; }
+    @media (min-width: 1024px) {
+      .card .body { padding: 12px 14px 14px; }
+      .card .badge { font-size: 11px; padding: 4px 8px; }
+      .card .name { font-size: 18px; }
+      .card .price { font-size: 24px; }
+    }
+
     /* ---------- Detail modal ---------- */
     .modal {
       width: min(520px, calc(100% - 32px));
@@ -356,6 +409,7 @@
     }
     .modal::backdrop { background: rgba(5, 9, 18, .7); }
     .modal .body { gap: 12px; }
+    .modal .media { aspect-ratio: 4 / 3; }
     .modal .name { -webkit-line-clamp: unset; }
     .modal .desc { font-size: 16px; color: var(--muted); }
     .modal-close {
@@ -451,25 +505,25 @@
       background: linear-gradient(100deg, var(--glass) 30%, rgba(189, 247, 209, .07) 50%, var(--glass) 70%);
       background-size: 300% 100%;
       animation: shimmer 1.4s infinite linear;
-      min-height: 380px;
+      aspect-ratio: 3 / 4.4;
     }
     @keyframes shimmer { from { background-position: 100% 0; } to { background-position: 0 0; } }
 
     /* ---------- Rules ---------- */
-    .rules { margin-top: 26px; }
+    .rules { margin-top: var(--gap-intro-rules); }
 
     .rules-list {
       list-style: none;
       display: grid;
-      gap: 12px;
+      gap: var(--space-sm);
     }
-    @media (min-width: 760px) { .rules-list { grid-template-columns: repeat(3, 1fr); gap: 20px; } }
+    @media (min-width: 760px) { .rules-list { grid-template-columns: repeat(3, 1fr); gap: var(--space-lg); } }
 
     .rule {
       display: flex;
       align-items: center;
-      gap: 18px;
-      padding: 20px;
+      gap: var(--space-lg);
+      padding: var(--rule-pad);
       background: var(--glass);
       border: 1px solid var(--glass-border);
       border-radius: var(--radius);
@@ -477,7 +531,7 @@
       -webkit-backdrop-filter: blur(14px);
     }
     @media (min-width: 760px) {
-      .rule { flex-direction: column; align-items: flex-start; gap: 14px; padding: 26px 24px 28px; }
+      .rule { flex-direction: column; align-items: flex-start; gap: var(--space-sm); }
     }
 
     .rule-num {
@@ -495,7 +549,7 @@
 
     .rule-label {
       display: block;
-      margin-bottom: 4px;
+      margin-bottom: var(--space-sm);
       font-family: var(--display);
       font-weight: 700;
       font-size: 13px;
@@ -589,7 +643,7 @@
 
   <main>
     <nav class="filters" aria-label="Buscar y filtrar productos">
-      <div class="wrap">
+      <div class="wrap wide">
         <div class="search" role="search">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
           <input type="search" id="q" placeholder="Busca una compu, iPad, monitor…" aria-label="Buscar productos" autocomplete="off" enterkeyhint="search">
@@ -599,8 +653,9 @@
       </div>
     </nav>
 
-    <section class="wrap" aria-label="Productos">
+    <section class="wide" aria-label="Productos">
       <div class="grid" id="grid" aria-live="polite">
+        <div class="skeleton"></div>
         <div class="skeleton"></div>
         <div class="skeleton"></div>
         <div class="skeleton"></div>
@@ -821,7 +876,19 @@
     const toTop = document.getElementById("to-top");
     const smooth = !matchMedia("(prefers-reduced-motion: reduce)").matches;
     toTop.onclick = () => scrollTo({ top: 0, behavior: smooth ? "smooth" : "auto" });
-    const syncToTop = () => toTop.classList.toggle("show", scrollY > 400);
+    // Visible only while scrolling up and more than 400px from the top.
+    // Small deltas are ignored so iOS bounce and jitter don't flicker it.
+    let lastY = scrollY;
+    let goingUp = false;
+    const syncToTop = () => {
+      const y = scrollY;
+      const delta = y - lastY;
+      if (Math.abs(delta) > 6) {
+        goingUp = delta < 0;
+        lastY = y;
+      }
+      toTop.classList.toggle("show", goingUp && y > 400);
+    };
     addEventListener("scroll", syncToTop, { passive: true });
     syncToTop();
 
