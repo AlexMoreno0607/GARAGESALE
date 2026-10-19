@@ -687,6 +687,151 @@
       .to-top svg { width: 18px; height: 18px; }
     }
 
+    /* ---------- Combo ---------- */
+    .combo-hint {
+      margin-top: var(--space-lg);
+      text-align: center;
+      font-size: 15px;
+      color: var(--muted);
+      text-wrap: pretty;
+    }
+    .combo-hint strong { color: var(--mint); font-weight: 500; }
+
+    .combo-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      min-height: 40px;
+      padding: 0 14px;
+      font-family: var(--display);
+      font-weight: 700;
+      font-size: 14px;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      white-space: nowrap;
+      color: var(--mint);
+      background: transparent;
+      border: 1.5px solid var(--mint-dim);
+      border-radius: 999px;
+      cursor: pointer;
+      transition: background .2s, border-color .2s, box-shadow .2s, transform .15s;
+    }
+    .combo-btn:hover { border-color: var(--mint); }
+    .combo-btn:active { transform: scale(.97); }
+    .combo-btn[aria-pressed="true"] {
+      background: rgba(189, 247, 209, .12);
+      border-color: var(--mint);
+      box-shadow: 0 0 12px rgba(189, 247, 209, .2);
+    }
+    .card .combo-btn { width: 100%; min-height: 34px; font-size: 13px; }
+    .modal .combo-btn { width: 100%; min-height: 46px; font-size: 16px; }
+    @media (pointer: coarse) {
+      .card .btn, .card .combo-btn { min-height: 42px; }
+    }
+
+    .combo {
+      position: fixed;
+      left: 10px;
+      right: 10px;
+      bottom: calc(12px + env(safe-area-inset-bottom));
+      z-index: 25;
+      max-width: 520px;
+      margin: 0 auto;
+      background: rgba(14, 22, 40, .84);
+      border: 1.5px solid var(--mint);
+      border-radius: var(--radius);
+      box-shadow: 0 0 18px var(--mint-glow), 0 10px 30px rgba(0, 0, 0, .45);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      animation: rise .3s both;
+    }
+    .combo[hidden], .combo-list[hidden] { display: none; }
+    @media (min-width: 760px) { .combo { bottom: 20px; } }
+
+    .combo-bar { display: flex; align-items: center; gap: 6px; padding: 6px; }
+    .combo-toggle {
+      flex: 1;
+      min-width: 0;
+      min-height: 44px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 4px 6px 4px 10px;
+      font-family: var(--body);
+      font-size: 14px;
+      line-height: 1.25;
+      text-align: left;
+      color: var(--text);
+      background: none;
+      border: 0;
+      border-radius: 12px;
+      cursor: pointer;
+    }
+    .combo-sum { flex: 1; min-width: 0; }
+    .combo-sum strong {
+      font-family: var(--display);
+      font-weight: 800;
+      font-size: 18px;
+      color: var(--mint);
+      text-shadow: 0 0 10px var(--mint-glow);
+      white-space: nowrap;
+    }
+    .combo-chev { flex: none; width: 18px; height: 18px; color: var(--mint); transition: transform .2s; }
+    .combo-toggle[aria-expanded="true"] .combo-chev { transform: rotate(180deg); }
+    .combo .btn { flex: none; min-height: 44px; padding: 0 16px; font-size: 15px; border: 0; cursor: pointer; }
+    .combo .btn svg { width: 16px; height: 16px; }
+
+    .combo-list {
+      list-style: none;
+      max-height: min(50vh, 320px);
+      overflow-y: auto;
+      overscroll-behavior: contain;
+      padding: 6px 6px 6px 8px;
+      border-bottom: 1px solid var(--glass-border);
+    }
+    .combo-item { display: flex; align-items: center; gap: 10px; padding: 2px 0 2px 6px; }
+    .combo-item + .combo-item { border-top: 1px solid rgba(255, 255, 255, .06); }
+    .combo-item-name {
+      flex: 1;
+      min-width: 0;
+      font-family: var(--display);
+      font-weight: 600;
+      font-size: 16px;
+      line-height: 1.2;
+      text-transform: uppercase;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .combo-item-price { flex: none; font-family: var(--display); font-weight: 800; font-size: 17px; color: var(--mint); }
+    .combo-remove {
+      flex: none;
+      width: 40px;
+      height: 40px;
+      display: grid;
+      place-items: center;
+      font-size: 22px;
+      line-height: 1;
+      color: var(--text);
+      background: none;
+      border: 0;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+    .combo-remove:hover { background: rgba(255, 255, 255, .08); }
+    .combo-btn:focus-visible, .combo-toggle:focus-visible, .combo-remove:focus-visible { outline: 2px solid var(--mint); outline-offset: 2px; }
+
+    /* Keep the last cards and the footer reachable above the bar */
+    body.has-combo { padding-bottom: calc(var(--combo-bar-h, 58px) + 24px + env(safe-area-inset-bottom)); }
+    /* Where the centered bar would overlap "Ir arriba", lift the button above it */
+    @media (max-width: 1099px) {
+      body.has-combo .to-top { bottom: calc(var(--combo-h, 58px) + 22px + env(safe-area-inset-bottom)); }
+    }
+    @media (min-width: 760px) and (max-width: 1099px) {
+      body.has-combo .to-top { bottom: calc(var(--combo-h, 58px) + 30px); }
+    }
+
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after { animation: none !important; transition: none !important; }
     }
@@ -717,6 +862,7 @@
         <p><span class="rule-label">Confirma</span><span class="rule-text">El primero que confirme se lo lleva</span></p>
       </li>
     </ol>
+    <p class="combo-hint"><strong>Arma tu combo</strong> y pide precio especial por varios artículos.</p>
   </section>
 
   <main>
@@ -754,6 +900,17 @@
     Ir arriba
   </button>
 
+  <div class="combo" id="combo" role="region" aria-label="Tu combo" hidden>
+    <ul class="combo-list" id="combo-list" hidden></ul>
+    <div class="combo-bar" id="combo-bar">
+      <button class="combo-toggle" id="combo-toggle" type="button" aria-expanded="false" aria-controls="combo-list">
+        <span class="combo-sum">Tu combo: <span id="combo-count"></span> · <strong id="combo-total"></strong></span>
+        <svg class="combo-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 15 6-6 6 6"/></svg>
+      </button>
+      <a class="btn" id="combo-cta" target="_blank" rel="noopener">Pedir combo</a>
+    </div>
+  </div>
+
   <dialog class="modal" id="modal" aria-label="Detalle del producto">
     <button class="modal-close" type="button" aria-label="Cerrar">&times;</button>
     <div id="modal-content"></div>
@@ -779,6 +936,10 @@
     let products = [];
     let active = "Todo";
     let query = "";
+
+    // A product can live in several categories; fall back to the single legacy field.
+    const categoriesOf = (p) =>
+      (Array.isArray(p.categorias) && p.categorias.length ? p.categorias : [p.categoria]).filter(Boolean);
 
     const fold = (str) => (str || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
     const searchText = (p) => fold(`${(p.nombre || "").replace(/^\s*\[prueba\]\s*/i, "")} ${p.descripcion || ""}`);
@@ -844,9 +1005,127 @@
       return row;
     }
 
+    // ---------- Combo ----------
+    // Saved as product ids only; names and prices always come from the live catalog.
+    const COMBO_KEY = "scndal-garage-combo";
+    let combo = readCombo();
+    let catalogReady = false;
+
+    const comboBox = document.getElementById("combo");
+    const comboBar = document.getElementById("combo-bar");
+    const comboList = document.getElementById("combo-list");
+    const comboToggle = document.getElementById("combo-toggle");
+    const comboCount = document.getElementById("combo-count");
+    const comboTotal = document.getElementById("combo-total");
+    const comboCta = document.getElementById("combo-cta");
+    comboCta.innerHTML = WA_ICON;
+    comboCta.append("Pedir combo");
+
+    function readCombo() {
+      try {
+        const saved = JSON.parse(localStorage.getItem(COMBO_KEY));
+        return Array.isArray(saved) ? saved.map(String) : [];
+      } catch {
+        return [];
+      }
+    }
+
+    function saveCombo() {
+      try { localStorage.setItem(COMBO_KEY, JSON.stringify(combo)); } catch {}
+    }
+
+    const inCombo = (id) => combo.includes(String(id));
+    const comboItems = () => combo.map((id) => products.find((p) => String(p.id) === id)).filter(Boolean);
+
+    function toggleCombo(id) {
+      id = String(id);
+      combo = inCombo(id) ? combo.filter((x) => x !== id) : [...combo, id];
+      saveCombo();
+      syncCombo();
+    }
+
+    function paintComboButton(b, p) {
+      const on = inCombo(p.id);
+      b.textContent = on ? "✓ En tu combo" : "+ Combo";
+      b.setAttribute("aria-pressed", String(on));
+      b.setAttribute("aria-label", `${on ? "Quitar del combo" : "Agregar al combo"}: ${p.nombre}`);
+    }
+
+    function comboButton(p) {
+      const b = el("button", "combo-btn");
+      b.type = "button";
+      b.dataset.comboId = p.id;
+      paintComboButton(b, p);
+      b.onclick = (e) => {
+        e.stopPropagation();
+        toggleCombo(p.id);
+      };
+      return b;
+    }
+
+    function comboLink(items, total) {
+      const lines = items.map((p) => `• ${p.nombre} — ${formatPrice(p.precio)}`);
+      const msg = [
+        "Hola, me interesa este combo de SCNDAL Garage:",
+        ...lines,
+        `Total: ${formatPrice(total)}`,
+        "¿Me pueden hacer un precio especial por llevarme todo?",
+      ].join("\n");
+      return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`;
+    }
+
+    function setComboOpen(open) {
+      comboList.hidden = !open;
+      comboToggle.setAttribute("aria-expanded", String(open));
+    }
+
+    function syncCombo() {
+      document.querySelectorAll("[data-combo-id]").forEach((b) => {
+        const p = products.find((x) => String(x.id) === b.dataset.comboId);
+        if (p) paintComboButton(b, p);
+      });
+
+      const items = catalogReady ? comboItems() : [];
+      const show = items.length > 0;
+      comboBox.hidden = !show;
+      document.body.classList.toggle("has-combo", show);
+      if (!show) { setComboOpen(false); return; }
+
+      const total = items.reduce((sum, p) => sum + (Number(p.precio) || 0), 0);
+      comboCount.textContent = `${items.length} ${items.length === 1 ? "artículo" : "artículos"}`;
+      comboTotal.textContent = formatPrice(total);
+      comboCta.href = comboLink(items, total);
+      comboCta.setAttribute("aria-label", `Pedir combo de ${comboCount.textContent} por WhatsApp`);
+
+      comboList.replaceChildren(...items.map((p) => {
+        const li = el("li", "combo-item");
+        const remove = el("button", "combo-remove", "×");
+        remove.type = "button";
+        remove.setAttribute("aria-label", `Quitar del combo: ${p.nombre}`);
+        remove.onclick = () => toggleCombo(p.id);
+        li.append(el("span", "combo-item-name", p.nombre), el("span", "combo-item-price", formatPrice(p.precio)), remove);
+        return li;
+      }));
+    }
+
+    comboToggle.onclick = () => setComboOpen(comboList.hidden);
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && !comboList.hidden) setComboOpen(false);
+    });
+    // Tapping anywhere outside the bar folds the list back down.
+    document.addEventListener("pointerdown", (e) => {
+      if (!comboList.hidden && !comboBox.contains(e.target)) setComboOpen(false);
+    });
+
+    // Expose the bar's height so the page padding and "Ir arriba" can clear it.
+    new ResizeObserver(() => {
+      document.documentElement.style.setProperty("--combo-h", `${comboBox.offsetHeight}px`);
+      document.documentElement.style.setProperty("--combo-bar-h", `${comboBar.offsetHeight}px`);
+    }).observe(comboBox);
+
     function openDetail(p) {
       const body = el("div", "body");
-      body.append(el("h2", "name", p.nombre), el("p", "desc", p.descripcion), foot(p));
+      body.append(el("h2", "name", p.nombre), el("p", "desc", p.descripcion), foot(p), comboButton(p));
       modalContent.replaceChildren(media(p), body);
       modal.showModal();
     }
@@ -859,7 +1138,7 @@
       const body = el("div", "body");
       body.append(el("h3", "name", p.nombre));
       if (p.descripcion) body.appendChild(el("p", "summary", p.descripcion));
-      body.appendChild(foot(p));
+      body.append(foot(p), comboButton(p));
       article.append(pic, body);
 
       if (p.descripcion) {
@@ -870,7 +1149,7 @@
         info.setAttribute("aria-label", `Ver detalles: ${p.nombre}`);
         pic.appendChild(info);
         article.addEventListener("click", (e) => {
-          if (!e.target.closest(".btn")) openDetail(p);
+          if (!e.target.closest(".btn, .combo-btn")) openDetail(p);
         });
       }
       return article;
@@ -900,7 +1179,7 @@
     qClear.onclick = () => { setQuery(""); q.focus(); };
 
     function renderChips() {
-      const cats = [...new Set(products.map((p) => p.categoria).filter(Boolean))]
+      const cats = [...new Set(products.flatMap(categoriesOf))]
         .sort((a, b) => a.localeCompare(b, "es"));
       if (!cats.length) { chips.replaceChildren(); return; }
       chips.replaceChildren(...["Todo", ...cats].map((c) => {
@@ -918,7 +1197,7 @@
 
     function renderGrid(instant = false) {
       const list = products.filter((p) =>
-        (active === "Todo" || p.categoria === active) &&
+        (active === "Todo" || categoriesOf(p).includes(active)) &&
         (!query || searchText(p).includes(query))
       );
       grid.classList.toggle("no-anim", instant);
@@ -943,7 +1222,7 @@
     async function load() {
       const { data, error } = await db
         .from("productos")
-        .select("id, nombre, descripcion, categoria, estado_fisico, precio, foto_url")
+        .select("id, nombre, descripcion, categoria, categorias, estado_fisico, precio, foto_url")
         .eq("vendido", false)
         .order("creado_en", { ascending: false });
 
@@ -953,8 +1232,16 @@
         return;
       }
       products = data || [];
+      // Drop anything that sold (or was removed) since it was added to the combo.
+      const prunedCombo = combo.filter((id) => products.some((p) => String(p.id) === id));
+      if (prunedCombo.length !== combo.length) {
+        combo = prunedCombo;
+        saveCombo();
+      }
+      catalogReady = true;
       renderChips();
       renderGrid();
+      syncCombo();
     }
 
     // The sentinel sits right above the bar; once it scrolls out the top, the bar is stuck.
